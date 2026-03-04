@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Photo Gallery{% endblock %}
+
+{% block content %}
+<h2>Photo Gallery</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+    {% for photo in photos %}
+        <div style="border-radius:10px; overflow:hidden; box-shadow:0 3px 15px rgba(0,0,0,0.1);">
+            <a href="{% url 'photo_detail' photo.id %}">
+                <img src="{{ photo.image.url }}" alt="{{ photo.title }}" style="width:100%; height:200px; object-fit:cover;">
+            </a>
+            <div style="padding:10px;">
+                <h4>{{ photo.title|truncatechars:50 }}</h4>
+                <p style="font-size:12px; color:gray;">By {{ photo.user.username }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>No photos uploaded yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

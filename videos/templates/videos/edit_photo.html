@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Edit Photo - Habesha Redcribe{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 50px auto;">
+    <h2>Edit Photo</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 8px 15px; background: #ff6347; color: #fff; border: none; border-radius: 5px; cursor:pointer;">Update</button>
+    </form>
+</div>
+{% endblock %}

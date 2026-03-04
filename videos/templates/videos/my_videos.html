@@ -1,0 +1,22 @@
+{% extends "videos/base.html" %}
+
+{% block content %}
+<h2>My Videos</h2>
+
+{% if videos %}
+    <ul>
+        {% for video in videos %}
+            <li>
+                <strong>{{ video.title }}</strong><br>
+                Views: {{ video.views }}<br>
+                Uploaded: {{ video.created_at }}<br>
+                <a href="{{ video.video_file.url }}">Watch</a>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not uploaded any videos yet.</p>
+{% endif %}
+
+{% endblock %}

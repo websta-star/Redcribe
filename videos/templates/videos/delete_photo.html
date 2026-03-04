@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Delete Photo - Habesha Redcribe{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 50px auto;">
+    <h2>Delete Photo</h2>
+    <p>Are you sure you want to delete "{{ photo.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="padding: 8px 15px; background: red; color: #fff; border: none; border-radius: 5px; cursor:pointer;">Yes, Delete</button>
+        <a href="{% url 'photo_list' %}" style="padding: 8px 15px; background: gray; color: #fff; border-radius: 5px; text-decoration: none;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Video - Habesha Redcribe{% endblock %}
+
+{% block content %}
+<h2>Upload a Video</h2>
+
+<div class="upload-card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+</div>
+{% endblock %}

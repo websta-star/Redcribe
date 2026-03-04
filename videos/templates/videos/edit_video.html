@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Video - Habesha Redcribe{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
+    <h2 style="margin-bottom: 20px;">Edit Video</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" style="padding: 8px 15px; background:#4caf50; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+            Save Changes
+        </button>
+        <a href="{% url 'home' %}" style="margin-left:10px; color:#555;">Cancel</a>
+    </form>
+
+</div>
+{% endblock %}

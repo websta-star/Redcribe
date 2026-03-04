@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Habesha Redcribe{% endblock %}
+
+{% block content %}
+<div style="max-width:1200px; margin:40px auto; padding:0 20px;">
+
+    <!-- Toggle Tabs -->
+    <div style="margin-bottom:30px; display:flex; gap:20px;">
+        <button id="videos-tab" style="padding:8px 15px; border:none; background:#ff6347; color:#fff; border-radius:6px; cursor:pointer;">
+            Videos
+        </button>
+        <button id="photos-tab" style="padding:8px 15px; border:none; background:#555; color:#fff; border-radius:6px; cursor:pointer;">
+            Photos
+        </button>
+    </div>
+
+    <!-- Videos Section -->
+    <div id="videos-section">
+        <h2 style="margin-bottom:25px; font-size:1.8rem; color:#333;">Latest Videos</h2>
+
+        {% if videos %}
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+            gap:25px;
+        ">
+            {% for video in videos %}
+            <div class="video-card"
+                 style="border-radius:12px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s, color 0.3s; background:#fff; position:relative;"
+                 onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';"
+                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)';">
+
+                <a href="{% url 'video_detail' video.id %}" style="text-decoration:none; color:inherit; display:block; position:relative;">
+                    {% if video.thumbnail %}
+                        <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" style="width:100%; height:180px; object-fit:cover; border-bottom:1px solid #eee; border-radius:12px 12px 0 0;">
+                    {% elif video.file %}
+                        <video muted style="width:100%; height:180px; object-fit:cover; border-bottom:1px solid #eee; border-radius:12px 12px 0 0;">
+                            <source src="{{ video.file.url }}" type="video/mp4">
+                        </video>
+                    {% else %}
+                        <div style="width:100%; height:180px; background:#eee; display:flex; align-items:center; justify-content:center; color:gray; font-size:16px; border-bottom:1px solid #eee; border-radius:12px 12px 0 0;">
+                            No Preview
+                        </div>
+                    {% endif %}
+
+                    <!-- Play Icon -->
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:40px; color:rgba(255,255,255,0.8); pointer-events:none;">▶</div>
+
+                    <!-- Video Info: Title, Uploaded by -->
+                    <div style="padding:10px;">
+                        <h4 style="margin:0 0 5px 0; font-size:16px; color:#333;">{{ video.title|truncatechars:50 }}</h4>
+                        <p style="margin:0; color:gray; font-size:13px;">Uploaded by <strong>{{ video.user.username }}</strong></p>
+                        <p style="margin:3px 0 0 0; color:gray; font-size:12px;">{{ video.views }} views</p>
+                    </div>
+
+                    <!-- Edit/Delete (only for owner) -->
+                    {% if user.is_authenticated and video.user == user %}
+                    <div style="margin:10px 15px 15px 15px; display:flex; gap:10px;">
+                        <a href="{% url 'edit_video' video.id %}" style="padding:4px 10px; background:#4caf50; color:#fff; border-radius:4px; font-size:13px; text-decoration:none;">Edit</a>
+                        <a href="{% url 'delete_video' video.id %}" style="padding:4px 10px; background:#f44336; color:#fff; border-radius:4px; font-size:13px; text-decoration:none;">Delete</a>
+                    </div>
+                    {% endif %}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p style="color:gray;">No videos uploaded yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Photos Section -->
+    <div id="photos-section" style="display:none;">
+        <h2 style="margin-bottom:25px; font-size:1.8rem; color:#333;">Photo Gallery</h2>
+        {% if photos %}
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:25px;">
+            {% for photo in photos %}
+            <div class="photo-card" style="border-radius:12px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+                <a href="{% url 'photo_detail' photo.id %}" style="text-decoration:none; color:inherit;">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" style="width:100%; height:200px; object-fit:cover;">
+                    <div style="padding:10px;">
+                        <h4 style="margin:0 0 5px 0;">{{ photo.title|truncatechars:50 }}</h4>
+                        <p style="margin:0; color:gray;">{{ photo.user.username }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p style="color:gray;">No photos uploaded yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Tab toggle script -->
+<script>
+const videosTab = document.getElementById('videos-tab');
+const photosTab = document.getElementById('photos-tab');
+const videosSection = document.getElementById('videos-section');
+const photosSection = document.getElementById('photos-section');
+
+videosTab.addEventListener('click', () => {
+    videosSection.style.display='block';
+    photosSection.style.display='none';
+    videosTab.style.background='#ff6347';
+    photosTab.style.background='#555';
+});
+
+photosTab.addEventListener('click', () => {
+    videosSection.style.display='none';
+    photosSection.style.display='block';
+    photosTab.style.background='#ff6347';
+    videosTab.style.background='#555';
+});
+</script>
+{% endblock %}

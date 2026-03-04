@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Habesha Redcribe{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color:#fff; 
+            line-height:1.6; 
+            transition: background 0.3s, color 0.3s;
+            background: linear-gradient(135deg, #0b0c2a, #1a1a40);
+        }
+        a { text-decoration:none; color:#fff; }
+
+        /* Header */
+        header { 
+            background: linear-gradient(135deg, #0d1a33, #1a2a4a);
+            color: #fff;
+            padding: 30px 60px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: 130px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.7);
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* Logo / Title as Home */
+        .logo-link h1 {
+            margin: 0;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        .logo-link h1::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #fff;
+            transition: width 0.3s;
+            margin-top: 5px;
+        }
+        .logo-link h1:hover {
+            transform: scale(1.05);
+        }
+        .logo-link h1:hover::after {
+            width: 100%;
+        }
+
+        nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+        /* Header Search */
+        .header-search {
+            display: flex;
+            align-items: center;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.3);
+            flex: 1 1 350px;
+            background: rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .header-search:hover { box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+        .header-search input { padding: 12px 20px; border: none; outline: none; background: transparent; color: #fff; font-size: 1rem; }
+        .header-search input::placeholder { color: rgba(255,255,255,0.6); }
+        .header-search button {
+            padding: 12px 25px; border: none; background: #fff; color: #0b0c2a; font-weight: bold;
+            cursor: pointer; transition: all 0.3s; border-radius: 0 25px 25px 0;
+        }
+        .header-search button:hover { background: #ddd; }
+
+        /* Buttons */
+        .btn { display: inline-block; padding: 10px 22px; background: #fff; color: #0b0c2a; border-radius: 25px; transition: 0.3s; font-weight: bold; }
+        .btn:hover { background: #ddd; transform: translateY(-2px); }
+
+        /* Night Mode Button */
+        #night-mode-toggle { padding: 6px 14px; border: none; border-radius: 20px; cursor: pointer; background: #222; color: #fff; font-weight: bold; transition: 0.3s; }
+        #night-mode-toggle:hover { background: #555; }
+
+        main { padding: 40px; max-width: 1200px; margin: 0 auto; transition: background 0.3s, color 0.3s; color: #fff; }
+
+        main h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Horizontal scrolling video row */
+        .video-row {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+        .video-row::-webkit-scrollbar { height: 8px; }
+        .video-row::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 4px; }
+        .video-row::-webkit-scrollbar-track { background: transparent; }
+
+        /* Individual video card */
+        .video-card {
+            flex: 0 0 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        }
+        .video-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-info { padding: 10px 12px; }
+        .video-info h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            transition: color 0.3s, text-shadow 0.3s;
+            cursor: pointer;
+        }
+        .video-info h3:hover {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Compact description */
+        .video-info p {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            margin: 0;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Footer */
+        footer { background: #111; color: #fff; padding: 20px 30px; text-align: center; font-size: 14px; transition: background 0.3s, color 0.3s; }
+        footer a { color: #fff; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media(max-width:768px){
+            header h1 { font-size: 2rem; flex:1 1 100%; text-align:center; margin-bottom:15px; }
+            nav { flex:1 1 100%; justify-content:center; gap:12px; }
+            .header-search { flex:1 1 100%; margin-bottom:10px; }
+            main { padding: 20px; }
+            .video-card { flex: 0 0 160px; }
+            .video-card img { height: auto; }
+        }
+
+        /* Floating Contact / Message Button */
+        .floating-contact {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #ff6347;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            line-height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 999;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .floating-contact:hover {
+            transform: scale(1.1);
+            background: #ff4500;
+        }
+        .night-mode .floating-contact {
+            background: #333;
+            color: #fff;
+        }
+        .night-mode .floating-contact:hover {
+            background: #555;
+        }
+
+        /* Night mode */
+        .night-mode { background-color: #0b0c2a; color: #fff; }
+        .night-mode header { background: #1f1f1f; }
+        .night-mode footer { background: #1f1f1f; color: #fff; }
+        .night-mode a { color: #fff; }
+        .night-mode a:hover { color: #ddd; }
+        .night-mode .btn { background: #333; color: #fff; }
+        .night-mode .btn:hover { background: #555; }
+        .night-mode #night-mode-toggle { background: #555; color: #fff; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}" class="logo-link"><h1>Habesha Redcribe</h1></a>
+
+        <form method="get" action="{% url 'home' %}" class="header-search">
+            <input type="text" name="q" placeholder="Search videos..." value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'upload_video' %}" class="btn">Upload Video</a>
+                <form method="post" action="{% url 'logout' %}" style="margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn">Login</a>
+                <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+            {% endif %}
+            <button id="night-mode-toggle">Night Mode</button>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <h2>Latest Videos</h2>
+
+        <div class="video-row">
+            <div class="video-card">
+                <img src="{% static 'thumbnails/video1.jpg' %}" alt="Video Thumbnail">
+                <div class="video-info">
+                    <h3>Video Title 1</h3>
+                    <p>2.3K views • Uploaded by Penu</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <img src="{% static 'thumbnails/video2.jpg' %}" alt="Video Thumbnail">
+                <div class="video-info">
+                    <h3>Video Title 2</h3>
+                    <p>1.1K views • Uploaded by Penu</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <img src="{% static 'thumbnails/video3.jpg' %}" alt="Video Thumbnail">
+                <div class="video-info">
+                    <h3>Video Title 3</h3>
+                    <p>3.4K views • Uploaded by Penu</p>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Habesha Redcribe | <a href="#">Privacy Policy</a></p>
+    </footer>
+
+    <!-- Floating Contact / Message Button -->
+    <a href="{% url 'contact' %}" class="floating-contact" title="Contact Us">💬</a>
+
+    <script>
+        const toggle = document.getElementById('night-mode-toggle');
+        const body = document.body;
+        if(localStorage.getItem('nightMode') === 'enabled'){ 
+            body.classList.add('night-mode'); 
+            toggle.innerText='Light Mode'; 
+        }
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            if(body.classList.contains('night-mode')){
+                localStorage.setItem('nightMode','enabled');
+                toggle.innerText='Light Mode';
+            } else {
+                localStorage.setItem('nightMode','disabled');
+                toggle.innerText='Night Mode';
+            }
+        });
+    </script>
+</body>
+</html>
