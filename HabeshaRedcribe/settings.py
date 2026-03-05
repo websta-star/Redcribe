@@ -13,14 +13,15 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from pathlib import Path
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-i-mekdtm7^qf$%jznsbgx8*ue&!^$&*ohlwbf!t_y!tcgi+&d7'
 DEBUG = False
-ALLOWED_HOSTS = ['.onrender.com']
-
+ALLOWED_HOSTS = ['redcribe.onrender.com', '127.0.0.1', 'localhost']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'videos',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -66,11 +69,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'HabeshaRedcribe.wsgi.application'
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+    'default': dj_database_url.parse(
+        'postgresql://habesharedcribe_user:ilY6DepAuByiXMUFXLHjCgXJoBfYbR2l@dpg-d6k2h2h5pdvs73dq21ng-a.oregon-postgres.render.com:5432/habesharedcribe'
     )
 }
-
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -101,3 +103,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'diulbtf4n',
+    'API_KEY': '389547538134477',
+    'API_SECRET': '**********',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

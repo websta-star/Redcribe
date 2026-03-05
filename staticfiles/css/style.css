@@ -1,0 +1,54 @@
+/* Video grid layout */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Individual video cards */
+.video-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Video thumbnail */
+.video-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+/* Placeholder thumbnail */
+.placeholder-thumbnail {
+    width: 100%;
+    height: 140px;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Video title */
+.video-card h3 {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Views text */
+.video-card p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
