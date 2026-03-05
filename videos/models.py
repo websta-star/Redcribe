@@ -5,19 +5,20 @@ from cloudinary.models import CloudinaryField
 class Video(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    file = models.FileField(upload_to='videos/')
-    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
+
+    file = CloudinaryField(resource_type="video")
+    thumbnail = CloudinaryField('image', blank=True, null=True)
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def total_likes(self):
-        return self.like_set.count()  # count likes from Like model
+        return self.like_set.count()
 
     def __str__(self):
         return self.title
-
 # ---------------- Like ----------------
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
