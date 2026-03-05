@@ -8,11 +8,19 @@
     <!-- LEFT: Video & Details -->
     <div style="flex:3;">
 
+        {% comment %} Video Player / Fallback {% endcomment %}
         {% if video.file %}
         <div style="position:relative; width:100%; padding-top:56.25%; background:black; border-radius:10px; overflow:hidden;">
             <video controls style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
                 <source src="{{ video.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
+        </div>
+        {% elif video.thumbnail %}
+        <img src="{{ video.thumbnail.url }}" style="width:100%; max-height:500px; object-fit:cover; border-radius:10px;">
+        {% else %}
+        <div style="width:100%; height:300px; background:#eee; display:flex; justify-content:center; align-items:center; border-radius:10px; color:gray;">
+            No video or thumbnail available
         </div>
         {% endif %}
 
@@ -47,7 +55,7 @@
             💬 Show Comments ({{ comments.count }})
         </button>
 
-        <!-- COMMENTS -->
+        <!-- COMMENTS SECTION -->
         <div id="comments-section" style="display:none;">
             {% if user.is_authenticated %}
             <form method="post" style="margin-bottom:15px;">
@@ -72,7 +80,7 @@
 
     </div>
 
-    <!-- RIGHT: Related Videos (Scrollable Sidebar) -->
+    <!-- RIGHT: Related Videos -->
     <div style="flex:1;">
         <h4 style="margin-bottom:15px;">Related Videos</h4>
         <div style="max-height:500px; overflow-y:auto; padding-right:5px;">
@@ -81,6 +89,12 @@
                onmouseover="this.style.background='#f1f1f1'" onmouseout="this.style.background='transparent'">
                 {% if related.thumbnail %}
                 <img src="{{ related.thumbnail.url }}" style="width:120px; height:70px; object-fit:cover; border-radius:6px;">
+                {% elif related.file %}
+                <video muted style="width:120px; height:70px; object-fit:cover; border-radius:6px;">
+                    <source src="{{ related.file.url }}" type="video/mp4">
+                </video>
+                {% else %}
+                <div style="width:120px; height:70px; background:#eee; display:flex; align-items:center; justify-content:center; font-size:12px; color:gray; border-radius:6px;">No Preview</div>
                 {% endif %}
                 <div style="font-size:13px; display:flex; flex-direction:column; justify-content:center;">
                     <strong>{{ related.title|truncatechars:40 }}</strong>
@@ -93,6 +107,7 @@
 
 </div>
 
+<!-- SCRIPTS -->
 <script>
 function toggleComments(){
     const section = document.getElementById('comments-section');
@@ -128,5 +143,4 @@ document.getElementById('like-btn').addEventListener('click', function() {
     })
 });
 </script>
-
 {% endblock %}

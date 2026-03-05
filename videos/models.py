@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from cloudinary.models import CloudinaryField
 # ---------------- Video ----------------
 class Video(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     file = models.FileField(upload_to='videos/')
     thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
