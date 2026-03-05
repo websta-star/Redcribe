@@ -13,15 +13,15 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-from pathlib import Path
-import cloudinary
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# ---------------- BASE ----------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-i-mekdtm7^qf$%jznsbgx8*ue&!^$&*ohlwbf!t_y!tcgi+&d7'
 DEBUG = False
 ALLOWED_HOSTS = ['redcribe.onrender.com', '127.0.0.1', 'localhost']
+
+# ---------------- INSTALLED APPS ----------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,11 +29,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'videos',
     'cloudinary',
     'cloudinary_storage',
 ]
 
+# ---------------- MIDDLEWARE ----------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,11 +50,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'HabeshaRedcribe.urls'
 
-# ---------------- FIXED TEMPLATES ----------------
+# ---------------- TEMPLATES ----------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Add a global templates folder here
         'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -64,15 +65,17 @@ TEMPLATES = [
         },
     },
 ]
-# -------------------------------------------------
 
 WSGI_APPLICATION = 'HabeshaRedcribe.wsgi.application'
 
+# ---------------- DATABASE ----------------
 DATABASES = {
     'default': dj_database_url.parse(
         'postgresql://habesharedcribe_user:ilY6DepAuByiXMUFXLHjCgXJoBfYbR2l@dpg-d6k2h2h5pdvs73dq21ng-a.oregon-postgres.render.com:5432/habesharedcribe'
     )
 }
+
+# ---------------- PASSWORD VALIDATION ----------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -80,33 +83,30 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# ---------------- INTERNATIONALIZATION ----------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
-import os
-
+# ---------------- STATIC FILES ----------------
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# ---------------- CLOUDINARY STORAGE ----------------
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'diulbtf4n',
     'API_KEY': '389547538134477',
-    'API_SECRET': '**********',
+    'API_SECRET': '**********',  # Replace with your secret
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# ---------------- LOGIN/LOGOUT ----------------
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
+# ---------------- OTHER ----------------
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
