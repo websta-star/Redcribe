@@ -6,7 +6,10 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
-
+import os
+print("Cloud name:", os.environ.get("CLOUDINARY_CLOUD_NAME"))
+print("API key:", os.environ.get("CLOUDINARY_API_KEY"))
+print("API secret:", os.environ.get("CLOUDINARY_API_SECRET"))
 from .models import Video, Comment, Like, Photo, ContactMessage
 from .forms import VideoForm, CommentForm, PhotoForm
 
@@ -108,12 +111,18 @@ def session_test(request):
 def upload_video(request):
 
     if request.method == 'POST':
-
         form = VideoForm(request.POST, request.FILES)
 
         if form.is_valid():
             video = form.save(commit=False)
             video.user = request.user
+
+            from cloudinary.uploader import upload
+
+            file = request.FILES['file']
+            result = upload(file, resource_type="video", upload_preset="habesha_video")
+
+            video.file = result['secure_url']
             video.save()
 
             return redirect('home')
