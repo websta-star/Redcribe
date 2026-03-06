@@ -120,7 +120,7 @@ def upload_video(request):
             from cloudinary.uploader import upload
 
             file = request.FILES['file']
-            result = upload(file, resource_type="video", upload_preset="habesha_video")
+            result = upload(file, resource_type="video")
 
             video.file = result['secure_url']
             video.save()
