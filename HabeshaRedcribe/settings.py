@@ -1,3 +1,5 @@
+# HabeshaRedcribe/settings.py
+
 from pathlib import Path
 import os
 import dj_database_url
@@ -6,8 +8,9 @@ import cloudinary
 # ---------------- BASE ----------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key-for-dev')
-DEBUG = True
+# ---------------- SECURITY ----------------
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key')  # set in Render env
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['redcribe.onrender.com', '127.0.0.1', 'localhost']
 
 # ---------------- INSTALLED APPS ----------------
@@ -58,7 +61,9 @@ WSGI_APPLICATION = 'HabeshaRedcribe.wsgi.application'
 
 # ---------------- DATABASE ----------------
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 # ---------------- PASSWORD VALIDATION ----------------
@@ -78,7 +83,7 @@ USE_TZ = True
 # ---------------- STATIC FILES ----------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ---------------- CLOUDINARY STORAGE ----------------
