@@ -6,7 +6,7 @@ class Video(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
 
-    file = CloudinaryField(resource_type="video")
+    file = CloudinaryField(resource_type="video", blank=True, null=True)
     thumbnail = CloudinaryField('image', blank=True, null=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
