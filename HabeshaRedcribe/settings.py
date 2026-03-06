@@ -9,7 +9,7 @@ import cloudinary
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ---------------- SECURITY ----------------
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key')  # set in Render env
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key')  # fallback for local dev
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['redcribe.onrender.com', '127.0.0.1', 'localhost']
 
@@ -60,9 +60,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'HabeshaRedcribe.wsgi.application'
 
 # ---------------- DATABASE ----------------
+# Use Render database if available, else fallback to local SQLite
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=False
     )
 }
 
@@ -86,13 +89,16 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ---------------- CLOUDINARY STORAGE ----------------
+# ---------------- MEDIA / CLOUDINARY ----------------
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# ---------------- SESSIONS ----------------
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # ---------------- LOGIN/LOGOUT ----------------
 LOGIN_REDIRECT_URL = '/'
