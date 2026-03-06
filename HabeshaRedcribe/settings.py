@@ -18,7 +18,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-i-mekdtm7^qf$%jznsbgx8*ue&!^$&*ohlwbf!t_y!tcgi+&d7'
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['redcribe.onrender.com', '127.0.0.1', 'localhost']
 
 # ---------------- INSTALLED APPS ----------------
