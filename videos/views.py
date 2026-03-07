@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
 import os
+from django.shortcuts import render
 print("Cloud name:", os.environ.get("CLOUDINARY_CLOUD_NAME"))
 print("API key:", os.environ.get("CLOUDINARY_API_KEY"))
 print("API secret:", os.environ.get("CLOUDINARY_API_SECRET"))
