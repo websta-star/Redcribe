@@ -409,3 +409,8 @@ def contact(request):
         'success': success,
         'error': error
     })
+def privacy_policy(request):
+    return render(request, 'privacy.html')
+
+def terms_policy(request):
+    return render(request, 'terms.html')

@@ -22,4 +22,6 @@ urlpatterns = [
     path('photo/<int:pk>/edit/', views.edit_photo, name='edit_photo'),
     path('photo/<int:pk>/delete/', views.delete_photo, name='delete_photo'),
     path('contact/', views.contact, name='contact'),
+    path('privacy/', views.privacy_policy, name='privacy'),
+    path('terms/', views.terms_policy, name='terms'),
 ]    
