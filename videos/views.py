@@ -415,3 +415,11 @@ def privacy_policy(request):
 
 def terms_policy(request):
     return render(request, 'terms.html')
+def dmca(request):
+    return render(request, 'dmca.html')
+
+def removal(request):
+    return render(request, 'removal.html')
+
+def compliance(request):
+    return render(request, '2257.html')

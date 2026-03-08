@@ -24,4 +24,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('privacy/', views.privacy_policy, name='privacy'),
     path('terms/', views.terms_policy, name='terms'),
+    path('dmca/', views.dmca, name='dmca'),
+    path('removal/', views.removal, name='removal'),
+    path('2257/', views.compliance, name='compliance'),
 ]    
