@@ -48,7 +48,9 @@ class Photo(models.Model):
     image = models.ImageField(upload_to='photos/')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')
     is_published = models.BooleanField(default=True)
+    category = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
